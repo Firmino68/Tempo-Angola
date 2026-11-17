@@ -3,46 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tempo Angola | Previsão do tempo</title>
-  <meta name="description" content="Pesquise uma cidade angolana e veja o clima atual e a previsão para 7 dias." />
+  <title>Tempo Angola | O tempo explicado para o dia a dia</title>
+  <meta name="description" content="Veredictos práticos (posso secar roupa? levo guarda-chuva?), modo agricultor e painel das 18 capitais de Angola." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛅</text></svg>" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body data-theme="day">
   <main class="app">
     <h1>⛅ Tempo Angola</h1>
-    <p class="sub">Clima atual e previsão para 7 dias nas cidades de Angola.</p>
+    <p class="sub">O tempo explicado para o dia a dia, para o campo e para todo o país.</p>
 
     <form id="form" class="search" role="search">
       <label class="sr" for="q">Nome da cidade</label>
       <input id="q" type="search" placeholder="Ex.: Luanda, Huambo, Lubango…" autocomplete="off" required />
       <button class="btn" type="submit">Pesquisar</button>
-      <button class="btn ghost" type="button" id="geo" title="Usar a minha localização">📍</button>
+      <button class="btn ghost" type="button" id="geo" title="Usar a minha localização" aria-label="Usar a minha localização">📍</button>
     </form>
     <div class="chips" id="chips" aria-label="Cidades rápidas"></div>
-
     <p id="status" class="status" role="status" aria-live="polite"></p>
 
-    <section id="current" class="card" hidden>
-      <h2 id="place"></h2>
-      <div class="now">
-        <span class="icon" id="icon" aria-hidden="true"></span>
-        <span class="temp" id="temp"></span>
+    <div class="tabs" role="tablist" aria-label="Secções">
+      <button role="tab" id="t-hoje" aria-controls="p-hoje" aria-selected="true" data-tab="hoje">☀️ Hoje</button>
+      <button role="tab" id="t-campo" aria-controls="p-campo" aria-selected="false" data-tab="campo">🌱 Campo</button>
+      <button role="tab" id="t-angola" aria-controls="p-angola" aria-selected="false" data-tab="angola">🇦🇴 Angola</button>
+    </div>
+
+    <section id="p-hoje" role="tabpanel" aria-labelledby="t-hoje">
+      <div id="current" class="card" hidden>
+        <h2 id="place"></h2>
+        <div class="now"><span class="icon" id="icon" aria-hidden="true"></span><span class="temp" id="temp"></span></div>
+        <p class="desc" id="desc"></p>
+        <ul class="details">
+          <li>Sensação <strong id="feels"></strong></li>
+          <li>Humidade <strong id="hum"></strong></li>
+          <li>Vento <strong id="wind"></strong></li>
+        </ul>
       </div>
-      <p class="desc" id="desc"></p>
-      <ul class="details">
-        <li>Sensação <strong id="feels"></strong></li>
-        <li>Humidade <strong id="hum"></strong></li>
-        <li>Vento <strong id="wind"></strong></li>
-      </ul>
+      <div id="ask" hidden>
+        <div class="sec-row">
+          <h2 class="sec">Posso…?</h2>
+          <div class="seg" id="dayseg"><button data-day="0" class="on">Hoje</button><button data-day="1">Amanhã</button></div>
+        </div>
+        <div class="verdicts" id="verdicts"></div>
+      </div>
+      <div id="forecastBox" hidden>
+        <h2 class="sec">Próximos 7 dias</h2>
+        <div class="forecast" id="forecast"></div>
+      </div>
     </section>
 
-    <section id="forecastBox" hidden>
-      <h2 class="sec">Próximos 7 dias</h2>
-      <div class="forecast" id="forecast"></div>
+    <section id="p-campo" role="tabpanel" aria-labelledby="t-campo" hidden>
+      <p id="fieldStatus" class="status" role="status" aria-live="polite"></p>
+      <div id="field"></div>
     </section>
 
-    <footer>Dados: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> · Projeto de estudo</footer>
+    <section id="p-angola" role="tabpanel" aria-labelledby="t-angola" hidden>
+      <p id="countryStatus" class="status" role="status" aria-live="polite"></p>
+      <div id="ranks" class="ranks"></div>
+      <div class="sec-row"><h2 class="sec">As 18 capitais</h2>
+        <div class="seg" id="sort">
+          <button data-sort="az" class="on">A-Z</button><button data-sort="hot">🔥 Calor</button>
+          <button data-sort="rain">🌧️ Chuva</button><button data-sort="uv">🕶️ UV</button>
+        </div>
+      </div>
+      <div class="cgrid" id="country"></div>
+    </section>
+
+    <footer>
+      Dados: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> · Os veredictos e conselhos são regras simples calculadas a partir da previsão.
+      Não são alertas oficiais nem aconselhamento agrícola profissional. Projeto de estudo.
+    </footer>
   </main>
   <script src="js/app.js"></script>
 </body>
